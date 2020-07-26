@@ -6,7 +6,8 @@ import Icon from "@material-ui/core/Icon";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/styles";
 import Link from "../src/Link";
-import Siteler from "Components/Sites.tsx";
+import Siteler from "src/Components/Sites";
+import Overview from "src/Components/Overview";
 
 const useStyles = makeStyles({
   boxWrap: {
@@ -15,6 +16,8 @@ const useStyles = makeStyles({
     background:
       "linear-gradient(to bottom, rgba(114,113,120,0.50) 0%, rgba(55,53,75,0.60) 44%, rgba(20,20,36,0.7) 100%);",
     borderRadius: "14px",
+    margin: "0 3vw",
+
     marginTop: "1vh",
   },
   box: {
@@ -70,7 +73,7 @@ export default function Index() {
           </Grid>
         </Box>
       </div>
-
+      <Overview />
       <Siteler />
     </Container>
   );
