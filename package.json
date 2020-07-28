@@ -5,8 +5,9 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@reduxjs/toolkit": "^1.4.0",
+    "@types/react-redux": "^7.1.9",
     "clsx": "latest",
-    "next": "latest",
+    "next": "^9.5.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^6.1.0",

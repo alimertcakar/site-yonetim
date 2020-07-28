@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { ReactElement } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";

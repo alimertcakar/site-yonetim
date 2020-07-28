@@ -1,13 +1,14 @@
+// @ts-nocheck
 import React, { ReactElement, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
-import Link from "src/Link";
 import Community from "src/Components/Community";
+import { connect } from "react-redux";
+import Link from "src/Link";
 
-interface Props {}
 const useStyles = makeStyles({
   Siteler: {
     marginTop: "2vh",
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
     },
   },
 });
-export default function Sites({}: Props): ReactElement {
+function Sites({ communities }): ReactElement {
   const cls = useStyles();
   const [community, setCommunity] = useState(false);
   const addCommunity = () => {
@@ -47,19 +48,19 @@ export default function Sites({}: Props): ReactElement {
             Siteler
           </Typography>
           <Grid container className={cls.container}>
-            <Chip
-              clickable
-              color="secondary"
-              className={cls.chip}
-              label="Muhittin Topalak Sitesi"
-            ></Chip>
-            <Chip
-              clickable
-              color="secondary"
-              className={cls.chip}
-              label="Kazlıçeşmeli Sitesi"
-            ></Chip>
-
+            {communities.map((com) => (
+              <Link href={com}>
+                <Chip
+                  key={com}
+                  label={com}
+                  onClick={() => console.log(com)}
+                  clickable
+                  color="primary"
+                  className={cls.chip}
+                  variant="outlined"
+                ></Chip>
+              </Link>
+            ))}
             <Button
               variant="contained"
               color="primary"
@@ -74,3 +75,11 @@ export default function Sites({}: Props): ReactElement {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  communities: state.community,
+});
+
+const mapDispatchToProps = (dispatch) => {};
+
+export default connect(mapStateToProps, null)(Sites);

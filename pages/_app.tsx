@@ -1,10 +1,13 @@
+// @ts-nocheck
 import React from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
-
+import Layout from "src/Components/Layout/Layout";
+import { Provider } from "react-redux";
+import { store } from "src/store";
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
 
@@ -28,12 +31,16 @@ export default function MyApp(props: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
           rel="stylesheet"
         ></link>
-      </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      </Head>{" "}
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </Provider>
     </React.Fragment>
   );
 }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
@@ -5,15 +6,18 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
-import { communitySlice } from "src/Components/Slices/CommunitySlice";
+import { communitySlice } from "src/Components/Slices/communitySlice";
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme: any) => ({}));
 
 function AddCommunity({ back, add }) {
   const classes = useStyles();
   const { handleSubmit, register, errors } = useForm();
 
-  const onSubmit = (x: string) => add(x.siteismi);
+  const onSubmit = (x: string) => {
+    add(x.siteismi);
+    back();
+  };
 
   return (
     <div>

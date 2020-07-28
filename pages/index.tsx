@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -5,14 +6,9 @@ import Box from "@material-ui/core/Box";
 import Icon from "@material-ui/core/Icon";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/styles";
-import Link from "../src/Link";
 import Sites from "src/Components/Sites";
 import Overview from "src/Components/Overview";
 import Graphics from "src/Components/Graphics";
-import { Provider } from "react-redux";
-import { store } from "src/store";
-
-//TODO MOVE STORE TO APP.tsx
 
 const useStyles = makeStyles({
   boxWrap: {
@@ -59,31 +55,29 @@ const useStyles = makeStyles({
 export default function Index() {
   const classes = useStyles();
   return (
-    <Provider store={store}>
-      <Container maxWidth="md">
-        <div className={classes.boxWrap}>
-          <Box my={4} className={classes.box}>
-            <Grid container>
-              <Grid item>
-                <Icon classes={{ root: classes.iconRoot }}>
-                  <img className={classes.imageIcon} src="/img/Long.svg" />
-                </Icon>
-                <Typography className={classes.SelmaText}>Selma</Typography>
-              </Grid>
-
-              <Grid item>
-                <Typography className={classes.SelmaTextDesc} gutterBottom>
-                  Apartman Yönetim Asistanınız
-                </Typography>
-              </Grid>
+    <Container maxWidth="md">
+      <div className={classes.boxWrap}>
+        <Box my={4} className={classes.box}>
+          <Grid container>
+            <Grid item>
+              <Icon classes={{ root: classes.iconRoot }}>
+                <img className={classes.imageIcon} src="/img/Long.svg" />
+              </Icon>
+              <Typography className={classes.SelmaText}>Selma</Typography>
             </Grid>
-          </Box>
-        </div>
-        <Overview />
-        <Sites />
-        <Graphics />
-      </Container>
-    </Provider>
+
+            <Grid item>
+              <Typography className={classes.SelmaTextDesc} gutterBottom>
+                Apartman Yönetim Asistanınız
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
+      <Overview />
+      <Sites />
+      <Graphics />
+    </Container>
   );
 }
 
