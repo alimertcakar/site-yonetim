@@ -9,7 +9,7 @@ export default function Sites({}: Props): ReactElement {
   const cls = useStyles();
   return (
     <GradientBox
-      boxStyle={{ color: "#8FB879" }}
+      boxStyle={{ color: "#6ce82a" }}
       label="TOPLAM GELİR"
       amount="+9.990,30"
     ></GradientBox>

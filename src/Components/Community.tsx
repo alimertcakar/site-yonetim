@@ -53,7 +53,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    add: (comm) => dispatch(add(comm)),
+    add: (comm) => dispatch(add({ communityName: comm, apartments: [] })),
   };
 };
 

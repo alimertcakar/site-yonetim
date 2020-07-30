@@ -7,7 +7,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
 import Layout from "src/Components/Layout/Layout";
 import { Provider } from "react-redux";
-import { store } from "src/store";
+import { store, persistor } from "src/store";
+import { PersistGate } from "redux-persist/integration/react";
+
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
 
@@ -33,13 +35,15 @@ export default function MyApp(props: AppProps) {
         ></link>
       </Head>{" "}
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
+        <PersistGate loading="Veriler geliyor bekleyin" persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </React.Fragment>
   );

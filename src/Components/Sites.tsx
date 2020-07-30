@@ -8,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import Community from "src/Components/Community";
 import { connect } from "react-redux";
 import Link from "src/Link";
+import Textfield from "@material-ui/core/Textfield";
 
 const useStyles = makeStyles({
   Siteler: {
@@ -28,6 +29,10 @@ const useStyles = makeStyles({
       textDecoration: "none",
     },
   },
+  textfield: {
+    width: "100%",
+    marginTop: "2vh",
+  },
 });
 function Sites({ communities }): ReactElement {
   const cls = useStyles();
@@ -47,13 +52,17 @@ function Sites({ communities }): ReactElement {
           <Typography variant="h4" component="h2" className={cls.Siteler}>
             Siteler
           </Typography>
+          <Textfield
+            className={cls.textfield}
+            placeholder="Site ara"
+          ></Textfield>
           <Grid container className={cls.container}>
             {communities.map((com) => (
-              <Link href={com}>
+              <Link href={com.communityName}>
                 <Chip
-                  key={com}
-                  label={com}
-                  onClick={() => console.log(com)}
+                  key={com.communityName}
+                  label={com.communityName}
+                  onClick={() => console.log(com.communityName)}
                   clickable
                   color="primary"
                   className={cls.chip}
