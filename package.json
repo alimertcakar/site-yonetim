@@ -23,7 +23,7 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "devDependencies": {
-    "@types/node": "latest",
+    "@types/node": "^14.0.27",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "typescript": "latest"

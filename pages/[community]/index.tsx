@@ -6,6 +6,7 @@ import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import { communitySlice } from "src/Components/Slices/communitySlice";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -26,16 +27,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Community({ communityState }) {
+function Community({ communityState, addApartment }) {
   const router = useRouter();
   const cls = useStyles();
   const { community } = router.query;
+
+  let currentCom = {};
+  currentCom = communityState.find((coms) => {
+    return coms.communityName === community || { communityName: "loading" };
+  });
+
+  const addApartmentHandler = () => {
+    addApartment({ community, apartment: "cız" });
+  };
+
   return (
     <Container>
       <h1>
-        Site: {community} : {communityState}
+        query: {community} communityName: {currentCom.communityName}
       </h1>
-
       <TextField
         id="standard-search"
         variant="filled"
@@ -45,7 +55,11 @@ function Community({ communityState }) {
         className={cls.textfield}
       />
       <Grid container justify="flex-end" className={cls.addCommunity}>
-        <Button variant="outlined" className={cls.addButton}>
+        <Button
+          variant="outlined"
+          className={cls.addButton}
+          onClick={addApartmentHandler}
+        >
           Blok/apartman ekle:
         </Button>
       </Grid>
@@ -57,6 +71,9 @@ const mapStateToProps = (state) => ({
   communityState: state.community,
 });
 
-const mapDispatchToProps = {};
+const addApartment = communitySlice.actions.addApartment;
+const mapDispatchToProps = (dispatch) => ({
+  addApartment: (val) => dispatch(addApartment(val)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);
