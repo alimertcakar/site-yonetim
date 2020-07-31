@@ -26,41 +26,24 @@ const useStyles = makeStyles({
     marginTop: "2px",
   },
 });
-export default function Sites({ apartments }): ReactElement {
+export default function Apartments({ apartments }): ReactElement {
   const cls = useStyles();
   const router = useRouter();
   function gotoApartment() {
     router.push(router.query.community + "/a1");
   }
-
   return (
-    <>
-      <List>
-        <ListItem button onClick={gotoApartment}>
-          <ListItemIcon>
-            <ApartmentIcon />
-          </ListItemIcon>
-          <ListItemText> A/1</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ApartmentIcon />
-          </ListItemIcon>
-          <ListItemText> A/2</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ApartmentIcon />
-          </ListItemIcon>
-          <ListItemText> Faruk eczanesi</ListItemText>
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ApartmentIcon />
-          </ListItemIcon>
-          <ListItemText> Yönetim</ListItemText>
-        </ListItem>
-      </List>
-    </>
+    <List>
+      {apartments.map((apartment) => {
+        return (
+          <ListItem button onClick={gotoApartment}>
+            <ListItemIcon>
+              <ApartmentIcon />
+            </ListItemIcon>
+            <ListItemText> {apartment}</ListItemText>
+          </ListItem>
+        );
+      })}
+    </List>
   );
 }

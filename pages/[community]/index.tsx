@@ -7,6 +7,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { communitySlice } from "src/Components/Slices/communitySlice";
+import { useState } from "react";
+import ApartmentFrom from "src/Components/ApartmentForm";
+import Apartments from "src/Components/Apartments";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -27,18 +30,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Community({ communityState, addApartment }) {
+function Community({ communityState, addApartment, removeApartment }) {
   const router = useRouter();
   const cls = useStyles();
   const { community } = router.query;
+  const [showAddApartment, setShowAddApartment] = useState(false);
 
   let currentCom = {};
   currentCom = communityState.find((coms) => {
     return coms.communityName === community || { communityName: "loading" };
   });
 
-  const addApartmentHandler = () => {
-    addApartment({ community, apartment: "cız" });
+  const addApartmentHandler = (val) => {
+    addApartment({ community, apartment: val });
+    setShowAddApartment(!showAddApartment);
+  };
+
+  const showAddApartmentMenu = () => {
+    setShowAddApartment(!showAddApartment);
   };
 
   return (
@@ -54,15 +63,34 @@ function Community({ communityState, addApartment }) {
         placeholder="falanca apartman"
         className={cls.textfield}
       />
+      <Grid>
+        {showAddApartment && (
+          <ApartmentFrom
+            addApartment={addApartmentHandler}
+            back={showAddApartmentMenu}
+          />
+        )}
+      </Grid>
+
       <Grid container justify="flex-end" className={cls.addCommunity}>
+        {!showAddApartment && (
+          <Button
+            variant="outlined"
+            className={cls.addButton}
+            onClick={showAddApartmentMenu}
+          >
+            Blok/apartman ekle:
+          </Button>
+        )}
         <Button
-          variant="outlined"
-          className={cls.addButton}
-          onClick={addApartmentHandler}
+          onClick={
+            () => removeApartment({ community: "bykdsit", apartment: "ccc" }) //TODO MOVE THIS BUTTON TO INDIVIDUAL APARTMENTS
+          }
         >
-          Blok/apartman ekle:
+          xxxx
         </Button>
       </Grid>
+      <Apartments apartments={currentCom.apartments} />
     </Container>
   );
 }
@@ -72,8 +100,11 @@ const mapStateToProps = (state) => ({
 });
 
 const addApartment = communitySlice.actions.addApartment;
+const removeApartment = communitySlice.actions.removeApartment;
+
 const mapDispatchToProps = (dispatch) => ({
   addApartment: (val) => dispatch(addApartment(val)),
+  removeApartment: (val) => dispatch(removeApartment(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);
