@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import ApartmentIcon from "@material-ui/icons/Apartment";
 import ListItemText from "@material-ui/core/ListItemText";
 import { useRouter } from "next/router";
 import { communitySlice } from "src/Components/Slices/communitySlice";
@@ -34,26 +34,48 @@ const useStyles = makeStyles({
     color: "red",
   },
 });
-export default function Apartments({
-  apartments,
-  removeApartment,
-}): ReactElement {
+function Apartments({ apartments, removeApartment }): ReactElement {
   const cls = useStyles();
   const router = useRouter();
-  console.log(apartments);
+  function gotoApartment(address) {
+    router.push(router.query.community + "/" + address);
+  }
   return (
     <List>
-      <ListItem button>
-        <ListItemIcon>
-          <MeetingRoomIcon />
-        </ListItemIcon>
-        <ListItemText> </ListItemText>
-        <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      {apartments.map((apartment) => {
+        console.log(apartment);
+        return (
+          <>
+            <ListItem button onClick={() => gotoApartment(apartment)}>
+              <ListItemIcon>
+                <ApartmentIcon />
+              </ListItemIcon>
+              <ListItemText> {apartment}</ListItemText>
+              <ListItemSecondaryAction
+                onClick={() => {
+                  removeApartment({
+                    community: "bykdsit",
+                    apartment: apartment,
+                  });
+                }}
+              >
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </>
+        );
+      })}
     </List>
   );
 }
+const mapStateToProps = (state) => ({});
+
+const removeApartment = communitySlice.actions.removeApartment;
+
+const mapDispatchToProps = (dispatch) => ({
+  removeApartment: (val) => dispatch(removeApartment(val)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Apartments);

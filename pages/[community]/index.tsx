@@ -8,8 +8,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { communitySlice } from "src/Components/Slices/communitySlice";
 import { useState } from "react";
-import ApartmentFrom from "src/Components/ApartmentForm";
-import Apartments from "src/Components/Apartments";
+import ApartmentFrom from "src/Components/ApartmentComplexForm";
+import Apartments from "src/Components/ApartmentComplexes";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -82,13 +82,6 @@ function Community({ communityState, addApartment, removeApartment }) {
             Blok/apartman ekle:
           </Button>
         )}
-        <Button
-          onClick={
-            () => removeApartment({ community: "bykdsit", apartment: "ccc" }) //TODO MOVE THIS BUTTON TO INDIVIDUAL APARTMENTS
-          }
-        >
-          xxxx
-        </Button>
       </Grid>
       <Apartments apartments={currentCom.apartments} />
     </Container>
@@ -100,11 +93,9 @@ const mapStateToProps = (state) => ({
 });
 
 const addApartment = communitySlice.actions.addApartment;
-const removeApartment = communitySlice.actions.removeApartment;
 
 const mapDispatchToProps = (dispatch) => ({
   addApartment: (val) => dispatch(addApartment(val)),
-  removeApartment: (val) => dispatch(removeApartment(val)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);

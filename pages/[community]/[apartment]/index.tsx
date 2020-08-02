@@ -6,6 +6,7 @@ import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Apartments from "src/Components/Apartments";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -26,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Community({ apartmentState }) {
+function Apartment({}) {
   const router = useRouter();
   const cls = useStyles();
   return (
     <Container>
-      <h1>Apartman: {apartmentState}</h1>
+      <h1>Apartman: </h1>
 
       <TextField
         id="standard-search"
@@ -43,18 +44,14 @@ function Community({ apartmentState }) {
       />
       <Grid container justify="flex-end" className={cls.addCommunity}>
         <Button variant="outlined" className={cls.addButton}>
-          {" "}
           Daire ekle:
         </Button>
       </Grid>
+      <Apartments apartments={["xxz", "z"]} />
     </Container>
   );
 }
 
-const mapStateToProps = (state) => ({
-  communityState: state.community,
-});
-
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Community);
+export default connect(null, mapDispatchToProps)(Apartment);

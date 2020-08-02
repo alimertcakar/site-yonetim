@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
-import Community from "src/Components/Community";
+import Community from "src/Components/CommunityForm";
 import { connect } from "react-redux";
 import Link from "src/Link";
 import Textfield from "@material-ui/core/Textfield";
