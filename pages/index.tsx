@@ -12,27 +12,32 @@ import Graphics from "src/Components/Graphics";
 
 const useStyles = makeStyles({
   boxWrap: {
+    borderTopLeftRadius: "0px",
+    borderTopRightRadius: "0px",
+
     padding: "0.15rem",
     position: "relative",
     background:
-      "linear-gradient(to bottom,#1C86D3 0%, #1C86D3 44%, #1C86D3 100%);",
+      "linear-gradient(to bottom,#1C86D3 0%, #1C86D3 44%, #1077c2 100%);",
     borderRadius: "14px",
     margin: "0 3vw",
-
-    marginTop: "1vh",
   },
   box: {
+    borderTopLeftRadius: "0px",
+    borderTopRightRadius: "0px",
+
     borderRadius: "10px",
     padding: "0.15rem",
     margin: 0,
-    background: "#1C86D3",
+    background:
+      "linear-gradient(to bottom,#1C86D3 0%, #1C86D3 44%, #1077c2 100%)",
     color: "white",
   },
   SelmaButton: {
     padding: 0,
   },
 
-  SelmaTextDesc: {
+  TextDec: {
     display: "block",
     fontSize: "1.2rem",
     textAlign: "center",
@@ -49,7 +54,7 @@ export default function Index() {
         <Box my={4} className={classes.box}>
           <Grid container justify="center">
             <Grid item>
-              <Typography className={classes.SelmaTextDesc} gutterBottom>
+              <Typography className={classes.TextDec} gutterBottom>
                 Apartman Yönetim Asistanınız
               </Typography>
             </Grid>

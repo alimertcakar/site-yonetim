@@ -5,18 +5,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
-import { communitySlice } from "src/Components/Slices/communitySlice";
 
 const useStyles = makeStyles((theme: any) => ({}));
 
-function AddCommunity({ back, add }) {
+function AddApartment({ addApartment, back }) {
   const classes = useStyles();
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = (x: string) => {
-    add(x.siteismi);
-    back();
+    addApartment(x.siteismi);
   };
 
   return (
@@ -33,7 +30,7 @@ function AddCommunity({ back, add }) {
           </Button>
           <TextField
             id="outlined-basic"
-            label="Site ismi"
+            label="Apartman ismi"
             variant="outlined"
             name="siteismi"
             inputRef={register({ maxLength: 15, required: "Required" })}
@@ -47,15 +44,4 @@ function AddCommunity({ back, add }) {
   );
 }
 
-const add = communitySlice.actions.add;
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    add: (comm) =>
-      dispatch(add({ communityName: comm, apartments: { apartment: [] } })),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddCommunity);
+export default AddApartment;

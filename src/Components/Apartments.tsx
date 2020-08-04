@@ -34,26 +34,29 @@ const useStyles = makeStyles({
     color: "red",
   },
 });
-export default function Apartments({
-  apartments,
-  removeApartment,
-}): ReactElement {
+export default function Apartments({ apartments, removeApartment }) {
   const cls = useStyles();
   const router = useRouter();
-  console.log(apartments);
+  if (apartments === "undefined") {
+    apartments = [];
+  }
   return (
     <List>
-      <ListItem button>
-        <ListItemIcon>
-          <MeetingRoomIcon />
-        </ListItemIcon>
-        <ListItemText> </ListItemText>
-        <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
+      {apartments.map((ap) => {
+        return (
+          <ListItem button>
+            <ListItemIcon>
+              <MeetingRoomIcon />
+            </ListItemIcon>
+            <ListItemText>{ap} </ListItemText>
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        );
+      })}
     </List>
   );
 }

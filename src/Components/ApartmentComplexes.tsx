@@ -42,20 +42,19 @@ function Apartments({ apartments, removeApartment }): ReactElement {
   }
   return (
     <List>
-      {apartments.map((apartment) => {
-        console.log(apartment);
+      {apartments.apartment.map((apartment) => {
         return (
           <>
-            <ListItem button onClick={() => gotoApartment(apartment)}>
+            <ListItem button onClick={() => gotoApartment(apartment.apartment)}>
               <ListItemIcon>
                 <ApartmentIcon />
               </ListItemIcon>
-              <ListItemText> {apartment}</ListItemText>
+              <ListItemText> {apartment.apartment}</ListItemText>
               <ListItemSecondaryAction
                 onClick={() => {
                   removeApartment({
                     community: "bykdsit",
-                    apartment: apartment,
+                    apartment: apartment.apartment,
                   });
                 }}
               >

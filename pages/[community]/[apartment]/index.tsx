@@ -2,20 +2,21 @@
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Apartments from "src/Components/Apartments";
+import { communitySlice } from "src/Components/Slices/communitySlice";
+import { useState } from "react";
+import ApartmentForm from "src/Components/ApartmentForm";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
     width: "100%",
     marginBottom: "2vh",
   },
-  addCommunity: {
-    marginTop: "2vh",
-  },
+  addCommunity: {},
   addButton: {
     paddingBottom: "10px",
     paddingRight: "10px",
@@ -25,15 +26,52 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "11px",
     paddingLeft: "12px",
   },
+  typographyHeader: {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+  },
+  paper: {
+    padding: "1rem",
+  },
 }));
 
-function Apartment({}) {
+function Apartment({ apartmentComplexState, addApartment }) {
   const router = useRouter();
   const cls = useStyles();
+  const [showAddApartment, setShowAddApartment] = useState(false);
+  const { community, apartment } = router.query;
+  const addApartmentHandler = (val) => {
+    addApartment({ community, apartment: val });
+    setShowAddApartment(!showAddApartment);
+  };
+
+  const showAddApartmentMenu = () => {
+    setShowAddApartment(!showAddApartment);
+  };
+  let currentCommunity = {};
+  currentCommunity = apartmentComplexState.find((coms) => {
+    return coms.communityName === community || { communityName: "loading" };
+  });
+  let currentApartmentComplex = currentCommunity.apartments.apartment.filter(
+    (aps) => {
+      return aps.apartment === apartment;
+    }
+  );
+  let currentApartment = currentApartmentComplex[0];
+  let rooms = ["loading"];
+  try {
+    rooms = currentApartment.rooms;
+  } catch {}
   return (
     <Container>
-      <h1>Apartman: </h1>
-
+      <Typography
+        variant="h3"
+        component="h2"
+        color="primary"
+        className={cls.typographyHeader}
+      >
+        Site: {apartment}
+      </Typography>
       <TextField
         id="standard-search"
         variant="filled"
@@ -42,16 +80,33 @@ function Apartment({}) {
         placeholder="x numaralı daire"
         className={cls.textfield}
       />
-      <Grid container justify="flex-end" className={cls.addCommunity}>
-        <Button variant="outlined" className={cls.addButton}>
-          Daire ekle:
-        </Button>
-      </Grid>
-      <Apartments apartments={["xxz", "z"]} />
+      <Paper elevation={1} variant="outlined" className={cls.paper}>
+        <Grid container justify="flex-end" className={cls.addCommunity}>
+          <Button
+            variant="outlined"
+            className={cls.addButton}
+            onClick={showAddApartmentMenu}
+          >
+            Daire ekle...
+          </Button>
+        </Grid>
+        {showAddApartment && (
+          <ApartmentForm addApartment={addApartmentHandler} />
+        )}
+        <Apartments apartments={rooms} />
+      </Paper>
     </Container>
   );
 }
 
-const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  apartmentComplexState: state.community,
+});
 
-export default connect(null, mapDispatchToProps)(Apartment);
+const addApartment = communitySlice.actions.addApartmentRoom; //* Important, action is Add apartment room
+
+const mapDispatchToProps = (dispatch) => ({
+  addApartment: (val) => dispatch(addApartment(val)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Apartment);

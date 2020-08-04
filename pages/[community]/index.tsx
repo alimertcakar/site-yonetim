@@ -2,22 +2,20 @@
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
-import { TextField } from "@material-ui/core";
+import { TextField, Paper, Typography } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { communitySlice } from "src/Components/Slices/communitySlice";
 import { useState } from "react";
 import ApartmentFrom from "src/Components/ApartmentComplexForm";
-import Apartments from "src/Components/ApartmentComplexes";
+import ApartmentComplexes from "src/Components/ApartmentComplexes";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
     width: "100%",
     marginBottom: "2vh",
-  },
-  addCommunity: {
-    marginTop: "2vh",
   },
   addButton: {
     paddingBottom: "10px",
@@ -27,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
 
     paddingTop: "11px",
     paddingLeft: "12px",
+  },
+  typographyHeader: {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+  },
+  paper: {
+    padding: "1rem",
   },
 }));
 
@@ -49,12 +54,16 @@ function Community({ communityState, addApartment, removeApartment }) {
   const showAddApartmentMenu = () => {
     setShowAddApartment(!showAddApartment);
   };
-
   return (
     <Container>
-      <h1>
-        query: {community} communityName: {currentCom.communityName}
-      </h1>
+      <Typography
+        variant="h3"
+        component="h2"
+        color="primary"
+        className={cls.typographyHeader}
+      >
+        Site: {currentCom.communityName}
+      </Typography>
       <TextField
         id="standard-search"
         variant="filled"
@@ -71,19 +80,20 @@ function Community({ communityState, addApartment, removeApartment }) {
           />
         )}
       </Grid>
-
-      <Grid container justify="flex-end" className={cls.addCommunity}>
-        {!showAddApartment && (
-          <Button
-            variant="outlined"
-            className={cls.addButton}
-            onClick={showAddApartmentMenu}
-          >
-            Blok/apartman ekle:
-          </Button>
-        )}
-      </Grid>
-      <Apartments apartments={currentCom.apartments} />
+      <Paper elevation={1} variant="outlined" className={cls.paper}>
+        <Grid container justify="flex-end" className={cls.addCommunity}>
+          {!showAddApartment && (
+            <Button
+              variant="outlined"
+              className={cls.addButton}
+              onClick={showAddApartmentMenu}
+            >
+              Blok/apartman ekle...
+            </Button>
+          )}
+        </Grid>
+        <ApartmentComplexes apartments={currentCom.apartments} />
+      </Paper>
     </Container>
   );
 }

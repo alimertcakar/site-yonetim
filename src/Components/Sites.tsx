@@ -9,6 +9,7 @@ import Community from "src/Components/CommunityForm";
 import { connect } from "react-redux";
 import Link from "src/Link";
 import Textfield from "@material-ui/core/Textfield";
+import BusinessIcon from "@material-ui/icons/Business";
 
 const useStyles = makeStyles({
   Siteler: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles({
   },
   chip: {
     margin: "0.2rem 1rem",
+    padding: "1.1rem 0.5rem 1rem",
   },
   container: {
     margin: "2rem 0rem",
@@ -63,7 +65,11 @@ function Sites({ communities }): ReactElement {
                   key={com.communityName}
                   label={com.communityName}
                   onClick={() => console.log(com.communityName)}
+                  onDelete={() => {
+                    console.log(onDelete);
+                  }}
                   clickable
+                  icon={<BusinessIcon />}
                   color="primary"
                   className={cls.chip}
                   variant="outlined"
@@ -76,7 +82,7 @@ function Sites({ communities }): ReactElement {
               className={cls.addNew}
               onClick={addCommunity}
             >
-              SİTE EKLE
+              SİTE EKLE...
             </Button>
           </Grid>
         </div>
