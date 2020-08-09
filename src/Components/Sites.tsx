@@ -66,7 +66,7 @@ function Sites({ communities }): ReactElement {
                   label={com.communityName}
                   onClick={() => console.log(com.communityName)}
                   onDelete={() => {
-                    console.log(onDelete);
+                    console.log("onDelete");
                   }}
                   clickable
                   icon={<BusinessIcon />}

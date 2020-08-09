@@ -23,7 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 let isBrowser = true;
 if (typeof window === "undefined") isBrowser = false;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   paper: {
     height: "40px",
     lineHeight: "40px",
@@ -31,35 +31,41 @@ const useStyles = makeStyles({
     marginTop: "2px",
   },
   button: {
-    color: "red",
+    color: theme.palette.error.light,
   },
-});
+  apartmentIcon: {
+    color: theme.palette.primary.main,
+  },
+}));
 function Apartments({ apartments, removeApartment }): ReactElement {
   const cls = useStyles();
   const router = useRouter();
-  function gotoApartment(address) {
-    router.push(router.query.community + "/" + address);
+  function gotoApartment(address, ind) {
+    router.push(router.query.community + "/" + address + "/" + ind);
   }
   return (
     <List>
-      {apartments.apartment.map((apartment) => {
+      {apartments.apartment.map((apartment, index) => {
         return (
           <>
-            <ListItem button onClick={() => gotoApartment(apartment.apartment)}>
+            <ListItem
+              button
+              onClick={() => gotoApartment(apartment.apartment, index)}
+            >
               <ListItemIcon>
-                <ApartmentIcon />
+                <ApartmentIcon className={cls.apartmentIcon} />
               </ListItemIcon>
               <ListItemText> {apartment.apartment}</ListItemText>
               <ListItemSecondaryAction
                 onClick={() => {
                   removeApartment({
-                    community: "bykdsit",
+                    community: "bykdsit", //TODO CHANGE WITH ID
                     apartment: apartment.apartment,
                   });
                 }}
               >
                 <IconButton edge="end" aria-label="delete">
-                  <DeleteIcon />
+                  <DeleteIcon className={cls.button} />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>

@@ -1,21 +1,22 @@
-//@ts-nocheck
+// @ts-nocheck
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
-import { TextField, Paper, Typography } from "@material-ui/core";
+import { TextField, Typography, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Apartments from "src/Components/Apartments";
 import { communitySlice } from "src/Components/Slices/communitySlice";
 import { useState } from "react";
-import ApartmentFrom from "src/Components/ApartmentComplexForm";
-import ApartmentComplexes from "src/Components/ApartmentComplexes";
+import ApartmentForm from "src/Components/ApartmentForm";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
     width: "100%",
     marginBottom: "2vh",
   },
+  addCommunity: {},
   addButton: {
     paddingBottom: "10px",
     paddingRight: "10px",
@@ -34,28 +35,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Community({ communityState, addApartment, removeApartment }) {
+function Apartment({ apartmentComplexState, addApartment, removeRoom }) {
   const router = useRouter();
   const cls = useStyles();
-  const { community } = router.query;
   const [showAddApartment, setShowAddApartment] = useState(false);
-  let currentCom = { communityName: "loading" };
-  try {
-    currentCom = communityState.find((coms) => {
-      return coms.communityName === community;
-    });
-  } catch {
-    console.log("loading values");
-  }
-
+  const { community, apartment, id } = router.query;
   const addApartmentHandler = (val) => {
-    addApartment({ community, apartment: val });
+    addApartment({ community, apartment: val, id });
     setShowAddApartment(!showAddApartment);
   };
 
   const showAddApartmentMenu = () => {
     setShowAddApartment(!showAddApartment);
   };
+  let currentCommunity = {};
+  let currentApartmentComplex;
+  let currentApartment;
+  let rooms = ["loading"];
+
+  try {
+    currentCommunity = apartmentComplexState.find((coms) => {
+      return coms.communityName === community;
+    });
+    console.log(currentCommunity);
+
+    currentApartmentComplex = currentCommunity.apartments.apartment.filter(
+      (aps) => {
+        return aps.apartment === apartment;
+      }
+    );
+    currentApartment = currentApartmentComplex[0];
+  } catch {
+    console.log("loading community");
+  }
+
+  try {
+    rooms = currentApartment.rooms;
+  } catch {
+    console.log("failed to load rooms");
+  }
   try {
     return (
       <Container>
@@ -65,26 +83,17 @@ function Community({ communityState, addApartment, removeApartment }) {
           color="primary"
           className={cls.typographyHeader}
         >
-          Site: {currentCom.communityName || "loading"}
+          Site: {apartment}
         </Typography>
         <TextField
           id="standard-search"
           variant="filled"
           label="Ara"
           type="search"
-          placeholder="falanca apartman"
+          placeholder="x numaralı daire"
           className={cls.textfield}
         />
-
         <Paper elevation={1} variant="outlined" className={cls.paper}>
-          <Grid>
-            {showAddApartment && (
-              <ApartmentFrom
-                addApartment={addApartmentHandler}
-                back={showAddApartmentMenu}
-              />
-            )}
-          </Grid>
           <Grid container justify="flex-end" className={cls.addCommunity}>
             {!showAddApartment && (
               <Button
@@ -93,31 +102,40 @@ function Community({ communityState, addApartment, removeApartment }) {
                 className={cls.addButton}
                 onClick={showAddApartmentMenu}
               >
-                Blok/apartman ekle...
+                Daire ekle...
               </Button>
             )}
           </Grid>
-          <ApartmentComplexes apartments={currentCom.apartments} />
+          {showAddApartment && (
+            <ApartmentForm
+              addApartment={addApartmentHandler}
+              back={showAddApartmentMenu}
+            />
+          )}
+          <Apartments
+            apartments={rooms}
+            removeRoom={removeRoom}
+            community={community}
+            apartment={apartment}
+          />
         </Paper>
       </Container>
     );
   } catch {
-    console.log("i am done with this");
-    return "loading";
+    console.log("loading");
   }
 }
 
-interface IMapState {
-  community: object;
-}
-const mapStateToProps = (state: IMapState) => ({
-  communityState: state.community,
+const mapStateToProps = (state) => ({
+  apartmentComplexState: state.community,
 });
 
-const addApartment = communitySlice.actions.addApartment;
+const addApartment = communitySlice.actions.addApartmentRoom; //* Important, action is Add apartment room
+const removeRoom = communitySlice.actions.removeRoom;
 
 const mapDispatchToProps = (dispatch) => ({
-  addApartment: (val: object) => dispatch(addApartment(val)),
+  addApartment: (val) => dispatch(addApartment(val)),
+  removeRoom: (val) => dispatch(removeRoom(val)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Community);
+export default connect(mapStateToProps, mapDispatchToProps)(Apartment);

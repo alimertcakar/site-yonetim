@@ -23,7 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 let isBrowser = true;
 if (typeof window === "undefined") isBrowser = false;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   paper: {
     height: "40px",
     lineHeight: "40px",
@@ -33,25 +33,47 @@ const useStyles = makeStyles({
   button: {
     color: "red",
   },
-});
-export default function Apartments({ apartments, removeApartment }) {
+  roomIcon: {
+    color: theme.palette.primary.main,
+  },
+  deleteButton: {
+    color: theme.palette.error.light,
+  },
+}));
+
+interface ApartmentProps {
+  apartments: string[];
+  removeApartment: void;
+}
+
+export default function Apartments({
+  apartments,
+  removeRoom,
+  community,
+  apartment,
+}): ApartmentProps {
   const cls = useStyles();
   const router = useRouter();
   if (apartments === "undefined") {
     apartments = [];
   }
+
   return (
     <List>
       {apartments.map((ap) => {
         return (
-          <ListItem button>
+          <ListItem button key={ap}>
             <ListItemIcon>
-              <MeetingRoomIcon />
+              <MeetingRoomIcon className={cls.roomIcon} />
             </ListItemIcon>
             <ListItemText>{ap} </ListItemText>
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => removeRoom({ room: ap, community, apartment })}
+              >
+                <DeleteIcon className={cls.deleteButton} />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

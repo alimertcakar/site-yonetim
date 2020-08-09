@@ -40,8 +40,9 @@ function Apartment({ apartmentComplexState, addApartment }) {
   const cls = useStyles();
   const [showAddApartment, setShowAddApartment] = useState(false);
   const { community, apartment } = router.query;
+  const removeApartment = () => console.log("ap rem");
   const addApartmentHandler = (val) => {
-    addApartment({ community, apartment: val });
+    addApartment({ community, apartment: val, id: 0 });
     setShowAddApartment(!showAddApartment);
   };
 
@@ -82,18 +83,24 @@ function Apartment({ apartmentComplexState, addApartment }) {
       />
       <Paper elevation={1} variant="outlined" className={cls.paper}>
         <Grid container justify="flex-end" className={cls.addCommunity}>
-          <Button
-            variant="outlined"
-            className={cls.addButton}
-            onClick={showAddApartmentMenu}
-          >
-            Daire ekle...
-          </Button>
+          {!showAddApartment && (
+            <Button
+              variant="contained"
+              color="primary"
+              className={cls.addButton}
+              onClick={showAddApartmentMenu}
+            >
+              Daire ekle...
+            </Button>
+          )}
         </Grid>
         {showAddApartment && (
-          <ApartmentForm addApartment={addApartmentHandler} />
+          <ApartmentForm
+            addApartment={addApartmentHandler}
+            back={showAddApartmentMenu}
+          />
         )}
-        <Apartments apartments={rooms} />
+        <Apartments apartments={rooms} removeApartment={removeApartment} />
       </Paper>
     </Container>
   );
