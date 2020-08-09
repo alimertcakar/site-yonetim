@@ -97,12 +97,15 @@ function Community({ communityState, addApartment, removeApartment }) {
               </Button>
             )}
           </Grid>
-          <ApartmentComplexes apartments={currentCom.apartments} />
+          <ApartmentComplexes
+            apartments={currentCom.apartments}
+            community={community}
+          />
         </Paper>
       </Container>
     );
   } catch {
-    console.log("i am done with this");
+    console.log("loading communities");
     return "loading";
   }
 }

@@ -49,8 +49,6 @@ export const communitySlice = createSlice({
       return nextState;
     },
     removeRoom: (state, action) => {
-      //*Work in progress
-      console.log(action);
       const nextState = produce(state, (draft) => {
         const communityToUpdate = draft.map((com) => {
           if (com.communityName === action.payload.community) {

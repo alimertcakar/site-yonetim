@@ -130,7 +130,7 @@ const mapStateToProps = (state) => ({
   apartmentComplexState: state.community,
 });
 
-const addApartment = communitySlice.actions.addApartmentRoom; //* Important, action is Add apartment room
+const addApartment = communitySlice.actions.addApartmentRoom; //* action is Add apartment room
 const removeRoom = communitySlice.actions.removeRoom;
 
 const mapDispatchToProps = (dispatch) => ({

@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
 }));
-function Apartments({ apartments, removeApartment }): ReactElement {
+function Apartments({ apartments, removeApartment, community }): ReactElement {
   const cls = useStyles();
   const router = useRouter();
   function gotoApartment(address, ind) {
@@ -59,7 +59,7 @@ function Apartments({ apartments, removeApartment }): ReactElement {
               <ListItemSecondaryAction
                 onClick={() => {
                   removeApartment({
-                    community: "bykdsit", //TODO CHANGE WITH ID
+                    community: community,
                     apartment: apartment.apartment,
                   });
                 }}
