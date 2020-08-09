@@ -8,6 +8,16 @@ export const communitySlice = createSlice({
   initialState: [],
   reducers: {
     add: (state, action) => [...state, action.payload],
+    remove: (state, action) => {
+      const nextState = produce(state, (draft) => {
+        draft = draft.filter((com) => {
+          return com.communityName !== action.payload.communityName;
+        });
+        return draft;
+      });
+      return nextState;
+    },
+
     addApartment: (state, action) => {
       const nextState = produce(state, (draft) => {
         const communityToUpdate = draft.map((com) => {

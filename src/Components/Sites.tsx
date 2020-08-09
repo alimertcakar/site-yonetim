@@ -8,8 +8,10 @@ import Chip from "@material-ui/core/Chip";
 import Community from "src/Components/CommunityForm";
 import { connect } from "react-redux";
 import Link from "src/Link";
-import Textfield from "@material-ui/core/Textfield";
+import TextField from "@material-ui/core/TextField";
 import BusinessIcon from "@material-ui/icons/Business";
+import { communitySlice } from "src/Components/Slices/communitySlice";
+import Router from "next/router";
 
 const useStyles = makeStyles({
   Siteler: {
@@ -36,7 +38,7 @@ const useStyles = makeStyles({
     marginTop: "2vh",
   },
 });
-function Sites({ communities }): ReactElement {
+function Sites({ communities, remove }): ReactElement {
   const cls = useStyles();
   const [community, setCommunity] = useState(false);
   const addCommunity = () => {
@@ -44,6 +46,9 @@ function Sites({ communities }): ReactElement {
   };
   const backToCommunity = () => {
     setCommunity(false);
+  };
+  const gotoCommunity = (com) => {
+    Router.push(com);
   };
   return (
     <div>
@@ -54,27 +59,25 @@ function Sites({ communities }): ReactElement {
           <Typography variant="h4" component="h2" className={cls.Siteler}>
             Siteler
           </Typography>
-          <Textfield
+          <TextField
             className={cls.textfield}
             placeholder="Site ara"
-          ></Textfield>
+          ></TextField>
           <Grid container className={cls.container}>
             {communities.map((com) => (
-              <Link href={com.communityName}>
-                <Chip
-                  key={com.communityName}
-                  label={com.communityName}
-                  onClick={() => console.log(com.communityName)}
-                  onDelete={() => {
-                    console.log("onDelete");
-                  }}
-                  clickable
-                  icon={<BusinessIcon />}
-                  color="primary"
-                  className={cls.chip}
-                  variant="outlined"
-                ></Chip>
-              </Link>
+              <Chip
+                key={com.communityName}
+                label={com.communityName}
+                onClick={() => gotoCommunity(com.communityName)}
+                onDelete={() => {
+                  remove(com.communityName);
+                }}
+                clickable
+                icon={<BusinessIcon />}
+                color="primary"
+                className={cls.chip}
+                variant="outlined"
+              ></Chip>
             ))}
             <Button
               variant="contained"
@@ -95,6 +98,10 @@ const mapStateToProps = (state) => ({
   communities: state.community,
 });
 
-const mapDispatchToProps = (dispatch) => {};
+const remove = communitySlice.actions.remove;
 
-export default connect(mapStateToProps, null)(Sites);
+const mapDispatchToProps = (dispatch) => ({
+  remove: (comm) => dispatch(remove({ communityName: comm })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sites);
